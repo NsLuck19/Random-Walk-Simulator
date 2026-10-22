@@ -2,10 +2,10 @@
 #include <iostream>
 #include <vector>
 #include <map>
+
 int random_walk(int steps, std::mt19937& engine);
-
-
-
+double mean(const std::vector<int>& data);
+double variance(const std::vector<int>& data);
 
 int main()
 {
@@ -25,6 +25,15 @@ int main()
     }
 
 
+    for (const auto& [position, counts] : histogram)
+    {
+        std::cout << position << "     : "<< std::string(counts/20, '*') << std::endl;
+    }
+    
+    std::cout << "Mean Value: " << mean(final_positions) << std::endl;
+    std::cout << "Variance: " << variance(final_positions) << std::endl;
+    return 0;
+
 
 }
 
@@ -40,4 +49,28 @@ int random_walk(int steps, std::mt19937& engine)
     }
 
     return position;
+}
+double mean(const std::vector<int>& data)
+{
+    double sum{};
+    for ( int value : data)
+    {
+        sum += static_cast<double>(value);
+    }
+    return sum / data.size();
+    
+}
+double variance(const std::vector<int>& data)
+{
+    double sum{};
+    double data_mean{mean(data)};
+
+    for (int value : data)
+    {
+        sum += ((value - data_mean) * (value - data_mean));
+    }
+
+    return sum / data.size();
+
+
 }
